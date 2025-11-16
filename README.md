@@ -1,6 +1,6 @@
-🌐💻 Haramaya University PC Registration System
-🔐 QR & Barcode Scanning • 🎓 Student Device Registry • ⚡ Built with React + Tailwind + Node.js + MySQL
-<p align="center"> <img src="https://img.shields.io/badge/React-18.0-61DAFB?style=for-the-badge&logo=react" /> <img src="https://img.shields.io/badge/Vite-Bundler-purple?style=for-the-badge&logo=vite" /> <img src="https://img.shields.io/badge/Node.js-Backend-brightgreen?style=for-the-badge&logo=node.js" /> <img src="https://img.shields.io/badge/Express.js-API-blue?style=for-the-badge&logo=express" /> <img src="https://img.shields.io/badge/MySQL2-Database-orange?style=for-the-badge&logo=mysql" /> <img src="https://img.shields.io/badge/QR--Scanner-html5--qrcode-red?style=for-the-badge&logo=QRcode" /> </p>
+🌐💻 Haramaya University PC Registration System <br />
+🔐 QR & Barcode Scanning • 🎓 Student Device Registry • ⚡ Built with React + Tailwind<br /><br />
+
 🎯 Project Overview
 
 A full-stack system designed for Haramaya University to securely register and track student computers using QR Code and Barcode scanning (from the official student ID card).
@@ -28,39 +28,40 @@ Live database lookup after scanning student ID barcode
 
 Modern components and reusable hooks
 
-📁 Project Structure (Based on Your Screenshot)
-HU-PC-Registration/
-│── node_modules/
-│── public/
-│── src/
-│   ├── assets/
-│   │   └── hu-logo.png
-│   ├── components/
-│   ├── hooks/
-│   ├── lib/
-│   ├── pages/
-│   │   ├── Admin.tsx
-│   │   ├── Home.tsx
-│   │   ├── NotFound.tsx
-│   │   ├── Records.tsx
-│   │   ├── Register.tsx
-│   │   ├── Scanner.tsx
-│   ├── App.css
-│   ├── App.tsx
-│   ├── index.css
-│   ├── main.tsx
-│   └── vite-env.d.ts
-│── .env
-│── .gitignore
-│── bun.lockb
-│── components.json
-│── eslint.config.js
-│── index.html
-│── package-lock.json
-│── package.json
-│── postcss.config.js
-│── README.md
-│── tailwind.config.ts
+📁 Project Structure (Based on Your Screenshot) <br /><br />
+
+HU-PC-Registration/<br />
+│── node_modules/<br />
+│── public/<br />
+│── src/<br />
+│   ├── assets/<br />
+│   │   └── hu-logo.png<br />
+│   ├── components/<br />
+│   ├── hooks/<br />
+│   ├── lib/<br />
+│   ├── pages/<br />
+│   │   ├── Admin.tsx<br />
+│   │   ├── Home.tsx<br />
+│   │   ├── NotFound.tsx<br />
+│   │   ├── Records.tsx<br />
+│   │   ├── Register.tsx<br />
+│   │   ├── Scanner.tsx<br />
+│   ├── App.css<br />
+│   ├── App.tsx<br />
+│   ├── index.css<br />
+│   ├── main.tsx<br />
+│   └── vite-env.d.ts<br />
+│── .env<br />
+│── .gitignore<br />
+│── bun.lockb<br />
+│── components.json<br />
+│── eslint.config.js<br />
+│── index.html<br />
+│── package-lock.json<br />
+│── package.json<br />
+│── postcss.config.js<br />
+│── README.md<br />
+│── tailwind.config.ts<br />
 
 📸 QR / Barcode Scanner Preview
 
