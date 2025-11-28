@@ -156,8 +156,15 @@ const Scanner = () => {
                 <>
                   <div className="relative w-full aspect-square bg-black rounded-lg overflow-hidden shadow-2xl border-4 border-primary">
                     <div id="reader" className="w-full h-full"></div>
-                    <div className="absolute inset-0 pointer-events-none">
-                      <div className="absolute top-0 left-0 right-0 h-1 bg-success animate-scan-line shadow-lg shadow-success/50"></div>
+                    <div className="absolute inset-0 pointer-events-none z-10">
+                      <div 
+                        className="absolute top-0 left-0 right-0 h-0.5 animate-scan-line" 
+                        style={{ 
+                          background: 'linear-gradient(to bottom, transparent, #22c55e, #22c55e, transparent)',
+                          boxShadow: '0 0 30px 5px rgba(34, 197, 94, 0.9), 0 0 60px 10px rgba(34, 197, 94, 0.6)',
+                          height: '3px'
+                        }}
+                      ></div>
                     </div>
                   </div>
                   <Button
@@ -191,9 +198,22 @@ const Scanner = () => {
 
           {result && (
             <Card className="p-6 bg-success/10 border-success animate-scale-in">
-              <div className="flex items-center space-x-3 mb-4">
-                <CheckCircle className="h-8 w-8 text-success" />
-                <h2 className="text-2xl font-bold text-success">REGISTERED</h2>
+              <div className="flex flex-col items-center mb-4">
+                {result.photoUrl ? (
+                  <img
+                    src={result.photoUrl}
+                    alt={result.fullName}
+                    className="w-40 h-40 rounded-full object-cover border-4 border-success mb-3 shadow-lg"
+                  />
+                ) : (
+                  <div className="w-40 h-40 rounded-full bg-muted border-4 border-success mb-3 flex items-center justify-center">
+                    <CheckCircle className="h-20 w-20 text-success" />
+                  </div>
+                )}
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="h-8 w-8 text-success" />
+                  <h2 className="text-2xl font-bold text-success">REGISTERED</h2>
+                </div>
               </div>
               <div className="space-y-2 text-sm">
                 <div className="grid grid-cols-2 gap-2">

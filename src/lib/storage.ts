@@ -10,6 +10,7 @@ export interface Student {
   phoneNumber: string;
   email?: string;
   registrationDate: string;
+  photoUrl?: string;
 }
 
 const STORAGE_KEY = 'hu_pc_registration_students';
@@ -60,6 +61,49 @@ export const searchStudents = (query: string): Student[] => {
       s.studentId.toLowerCase().includes(lowerQuery) ||
       s.pcSerialNumber.toLowerCase().includes(lowerQuery)
   );
+};
+
+export const checkDuplicateRegistration = (data: {
+  studentId: string;
+  phoneNumber: string;
+  email: string;
+  pcSerialNumber: string;
+}): { isDuplicate: boolean; field: string; value: string } | null => {
+  const students = getStudents();
+  
+  // Check student ID
+  const duplicateId = students.find(
+    s => s.studentId.toLowerCase() === data.studentId.toLowerCase()
+  );
+  if (duplicateId) {
+    return { isDuplicate: true, field: 'Student ID', value: data.studentId };
+  }
+  
+  // Check phone number
+  const duplicatePhone = students.find(
+    s => s.phoneNumber === data.phoneNumber
+  );
+  if (duplicatePhone) {
+    return { isDuplicate: true, field: 'Phone Number', value: data.phoneNumber };
+  }
+  
+  // Check email
+  const duplicateEmail = students.find(
+    s => s.email?.toLowerCase() === data.email.toLowerCase()
+  );
+  if (duplicateEmail) {
+    return { isDuplicate: true, field: 'Email', value: data.email };
+  }
+  
+  // Check PC serial number
+  const duplicateSerial = students.find(
+    s => s.pcSerialNumber.toLowerCase() === data.pcSerialNumber.toLowerCase()
+  );
+  if (duplicateSerial) {
+    return { isDuplicate: true, field: 'PC Serial Number', value: data.pcSerialNumber };
+  }
+  
+  return null;
 };
 
 export const exportToCSV = (): void => {

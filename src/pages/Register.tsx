@@ -11,9 +11,9 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { toast } from '@/hooks/use-toast';
-import { saveStudent } from '@/lib/storage';
+import { saveStudent, checkDuplicateRegistration } from '@/lib/storage';
 import Navigation from '@/components/Navigation';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Camera, X } from 'lucide-react';
 import QRCode from 'qrcode';               // <-- NEW IMPORT
 import emailjs from 'emailjs-com';
 
@@ -30,6 +30,11 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [qrBase64, setQrBase64] = useState<string | null>(null);
+  const [capturedPhoto, setCapturedPhoto] = useState<string | null>(null);
+  const [showCamera, setShowCamera] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const photoCanvasRef = useRef<HTMLCanvasElement>(null);
+  const streamRef = useRef<MediaStream | null>(null);
 
   const [formData, setFormData] = useState({
     fullName: '',
@@ -74,6 +79,95 @@ const Register = () => {
     );
   }, [formData.studentId]);
 
+  useEffect(() => {
+    return () => {
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach(track => track.stop());
+      }
+    };
+  }, []);
+
+  const startCamera = async () => {
+    console.log('Starting camera...');
+    setShowCamera(true);
+    
+    try {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        throw new Error('Camera not supported in this browser');
+      }
+
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        video: true
+      });
+      
+      console.log('Camera stream obtained:', stream);
+      streamRef.current = stream;
+      
+      // Wait for DOM to update before setting video source
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        console.log('Video source set');
+      } else {
+        console.error('Video ref is null');
+      }
+    } catch (err: any) {
+      console.error('Camera error:', err);
+      let errorMessage = 'Unable to access camera. ';
+      
+      if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+        errorMessage += 'Please allow camera permissions.';
+      } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
+        errorMessage += 'No camera found on this device.';
+      } else if (err.name === 'NotReadableError' || err.name === 'TrackStartError') {
+        errorMessage += 'Camera is already in use by another application.';
+      } else if (err.message) {
+        errorMessage += err.message;
+      }
+      
+      toast({
+        title: 'Camera Error',
+        description: errorMessage,
+        variant: 'destructive',
+      });
+      setShowCamera(false);
+    }
+  };
+
+  const capturePhoto = () => {
+    const video = videoRef.current;
+    const canvas = photoCanvasRef.current;
+    if (!video || !canvas) return;
+
+    const size = Math.min(video.videoWidth, video.videoHeight);
+    canvas.width = size;
+    canvas.height = size;
+    
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      const offsetX = (video.videoWidth - size) / 2;
+      const offsetY = (video.videoHeight - size) / 2;
+      
+      ctx.drawImage(video, offsetX, offsetY, size, size, 0, 0, size, size);
+      const photoData = canvas.toDataURL('image/jpeg', 0.8);
+      setCapturedPhoto(photoData);
+      stopCamera();
+    }
+  };
+
+  const stopCamera = () => {
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track => track.stop());
+      streamRef.current = null;
+    }
+    setShowCamera(false);
+  };
+
+  const removePhoto = () => {
+    setCapturedPhoto(null);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -96,11 +190,38 @@ const Register = () => {
       return;
     }
 
+    /* ---------- check photo is captured ---------- */
+    if (!capturedPhoto) {
+      toast({
+        title: 'Photo Required',
+        description: 'Please capture student photo before registering',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    /* ---------- check for duplicates ---------- */
+    const duplicateCheck = checkDuplicateRegistration({
+      studentId: formData.studentId,
+      phoneNumber: formData.phoneNumber,
+      email: formData.email,
+      pcSerialNumber: formData.pcSerialNumber,
+    });
+
+    if (duplicateCheck) {
+      toast({
+        title: 'Already Registered',
+        description: `${duplicateCheck.field} "${duplicateCheck.value}" is already registered in the system.`,
+        variant: 'destructive',
+      });
+      return;
+    }
+
     setLoading(true);
 
     try {
       /* ---------- save locally ---------- */
-      saveStudent(formData);
+      saveStudent({ ...formData, photoUrl: capturedPhoto || undefined });
 
       /* give canvas a tiny moment to finish */
       await new Promise((r) => setTimeout(r, 300));
@@ -138,6 +259,7 @@ const Register = () => {
         phoneNumber: '',
         email: '',
       });
+      setCapturedPhoto(null);
 
       setTimeout(() => navigate('/records'), 1500);
     } catch (err: any) {
@@ -172,6 +294,70 @@ const Register = () => {
                 width={256}
                 height={256}
               />
+              <canvas
+                ref={photoCanvasRef}
+                style={{ position: 'absolute', left: '-9999px' }}
+              />
+
+              {/* ------------------- Photo Capture ------------------- */}
+              <div className="flex flex-col items-center space-y-3 pb-4 border-b">
+                {!showCamera && (
+                  <div className="relative">
+                    {capturedPhoto ? (
+                      <>
+                        <img
+                          src={capturedPhoto}
+                          alt="Student"
+                          className="w-40 h-40 rounded-full object-cover border-4 border-primary shadow-lg"
+                        />
+                        <Button
+                          type="button"
+                          onClick={removePhoto}
+                          variant="destructive"
+                          size="icon"
+                          className="absolute -top-2 -right-2 rounded-full h-8 w-8"
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </>
+                    ) : (
+                      <div className="w-40 h-40 rounded-full bg-muted border-4 border-dashed border-primary flex items-center justify-center">
+                        <Camera className="h-16 w-16 text-muted-foreground" />
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {!capturedPhoto && !showCamera && (
+                  <Button type="button" onClick={startCamera} variant="outline" className="w-full">
+                    <Camera className="mr-2 h-4 w-4" />
+                    Capture Student Photo
+                  </Button>
+                )}
+
+                {showCamera && (
+                  <div className="relative flex flex-col items-center space-y-3">
+                    <div className="relative w-64 h-64 rounded-full overflow-hidden border-4 border-primary">
+                      <video
+                        ref={videoRef}
+                        autoPlay
+                        playsInline
+                        muted
+                        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full object-cover"
+                      />
+                    </div>
+                    <div className="flex gap-2 w-full">
+                      <Button type="button" onClick={capturePhoto} className="flex-1">
+                        <Camera className="mr-2 h-4 w-4" />
+                        Capture
+                      </Button>
+                      <Button type="button" onClick={stopCamera} variant="destructive" className="flex-1">
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
 
               {/* ------------------- Form Fields ------------------- */}
               <div>
