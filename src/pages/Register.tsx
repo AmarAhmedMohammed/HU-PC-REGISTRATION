@@ -16,7 +16,6 @@ import Navigation from '@/components/Navigation';
 import { Loader2, Camera, X } from 'lucide-react';
 import QRCode from 'qrcode';               // <-- NEW IMPORT
 import emailjs from 'emailjs-com';
-import huLogo from '@/assets/hu-logo.png';
 
 /* --------------------------------------------------------------
    REPLACE THESE WITH YOUR EMAILJS CREDENTIALS
@@ -276,15 +275,14 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen relative bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(59,130,246,0.1),transparent_50%),radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.1),transparent_50%)]"></div>
+    <div className="min-h-screen bg-gradient-to-br from-hu-gray via-white to-hu-gray">
       <Navigation />
 
-      <main className="container mx-auto px-4 py-8 relative z-10">
+      <main className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto">
-          <div className="glass-card backdrop-blur-xl bg-white/5 rounded-2xl shadow-2xl p-8 border border-white/10 animate-fade-in">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent mb-2">PC Registration</h1>
-            <p className="text-slate-400 mb-6">
+          <div className="bg-card rounded-xl shadow-xl p-8 border border-border animate-fade-in">
+            <h1 className="text-3xl font-bold text-primary mb-2">PC Registration</h1>
+            <p className="text-muted-foreground mb-6">
               Fill in all required information
             </p>
 
@@ -363,7 +361,7 @@ const Register = () => {
 
               {/* ------------------- Form Fields ------------------- */}
               <div>
-                <Label htmlFor="fullName" className="text-white">Full Name *</Label>
+                <Label htmlFor="fullName">Full Name *</Label>
                 <Input
                   id="fullName"
                   value={formData.fullName}
@@ -377,7 +375,7 @@ const Register = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="studentId" className="text-white">Student ID *</Label>
+                  <Label htmlFor="studentId">Student ID *</Label>
                   <Input
                     id="studentId"
                     value={formData.studentId}
@@ -390,7 +388,7 @@ const Register = () => {
                 </div>
 
                 <div>
-                  <Label htmlFor="yearOfStudy" className="text-white">Year of Study *</Label>
+                  <Label htmlFor="yearOfStudy">Year of Study *</Label>
                   <Select
                     value={formData.yearOfStudy}
                     onValueChange={(v) =>
@@ -413,7 +411,7 @@ const Register = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="college" className="text-white">College *</Label>
+                  <Label htmlFor="college">College *</Label>
                   <Input
                     id="college"
                     value={formData.college}
@@ -426,7 +424,7 @@ const Register = () => {
                 </div>
 
                 <div>
-                  <Label htmlFor="department" className="text-white">Department *</Label>
+                  <Label htmlFor="department">Department *</Label>
                   <Input
                     id="department"
                     value={formData.department}
@@ -441,7 +439,7 @@ const Register = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="pcSerialNumber" className="text-white">PC Serial Number *</Label>
+                  <Label htmlFor="pcSerialNumber">PC Serial Number *</Label>
                   <Input
                     id="pcSerialNumber"
                     value={formData.pcSerialNumber}
@@ -457,7 +455,7 @@ const Register = () => {
                 </div>
 
                 <div>
-                  <Label htmlFor="pcType" className="text-white">PC Type *</Label>
+                  <Label htmlFor="pcType">PC Type *</Label>
                   <Select
                     value={formData.pcType}
                     onValueChange={(v: 'Laptop' | 'Desktop') =>
@@ -488,7 +486,7 @@ const Register = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="phoneNumber" className="text-white">Phone Number *</Label>
+                  <Label htmlFor="phoneNumber">Phone Number *</Label>
                   <Input
                     id="phoneNumber"
                     type="tel"
@@ -502,7 +500,7 @@ const Register = () => {
                 </div>
 
                 <div>
-                  <Label htmlFor="email" className="text-white">Email *</Label>
+                  <Label htmlFor="email">Email *</Label>
                   <Input
                     id="email"
                     type="email"

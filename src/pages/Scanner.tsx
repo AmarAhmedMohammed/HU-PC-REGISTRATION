@@ -7,7 +7,6 @@ import { findStudentByStudentId, searchStudents, Student } from '@/lib/storage';
 import Navigation from '@/components/Navigation';
 import { Search, Camera, CheckCircle, XCircle, Loader2 } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
-import huLogo from '@/assets/hu-logo.png';
 
 const Scanner = () => {
   const [scanning, setScanning] = useState(false);
@@ -121,17 +120,16 @@ const Scanner = () => {
   };
 
   return (
-    <div className="min-h-screen relative bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(59,130,246,0.1),transparent_50%),radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.1),transparent_50%)]"></div>
+    <div className="min-h-screen bg-gradient-to-br from-hu-gray via-white to-hu-gray">
       <Navigation />
 
-      <main className="container mx-auto px-4 py-8 relative z-10">
+      <main className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto">
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent mb-6 text-center">
+          <h1 className="text-3xl font-bold text-primary mb-6 text-center">
             Student ID Scanner
           </h1>
 
-          <div className="glass-card backdrop-blur-xl bg-white/5 rounded-2xl border border-white/10 p-6 mb-6 animate-fade-in">
+          <Card className="p-6 mb-6 animate-fade-in">
             <div className="space-y-4">
               {!scanning && !result && !notFound && (
                 <Button
@@ -196,10 +194,10 @@ const Scanner = () => {
                 </div>
               )}
             </div>
-          </div>
+          </Card>
 
           {result && (
-            <div className="glass-card backdrop-blur-xl bg-emerald-500/10 border-emerald-500/30 rounded-2xl p-6 animate-scale-in">
+            <Card className="p-6 bg-success/10 border-success animate-scale-in">
               <div className="flex flex-col items-center mb-4">
                 {result.photoUrl ? (
                   <img
@@ -213,12 +211,12 @@ const Scanner = () => {
                   </div>
                 )}
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="h-8 w-8 text-emerald-400" />
-                  <h2 className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">REGISTERED</h2>
+                  <CheckCircle className="h-8 w-8 text-success" />
+                  <h2 className="text-2xl font-bold text-success">REGISTERED</h2>
                 </div>
               </div>
               <div className="space-y-2 text-sm">
-                <div className="grid grid-cols-2 gap-2 text-white">
+                <div className="grid grid-cols-2 gap-2">
                   <span className="font-semibold">Full Name:</span>
                   <span>{result.fullName}</span>
                   <span className="font-semibold">Student ID:</span>
@@ -246,16 +244,16 @@ const Scanner = () => {
               >
                 Scan Another
               </Button>
-            </div>
+            </Card>
           )}
 
           {notFound && (
-            <div className="glass-card backdrop-blur-xl bg-red-500/10 border-red-500/30 rounded-2xl p-6 animate-scale-in">
+            <Card className="p-6 bg-destructive/10 border-destructive animate-scale-in">
               <div className="flex items-center space-x-3 mb-4">
-                <XCircle className="h-8 w-8 text-red-400" />
-                <h2 className="text-2xl font-bold bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent">NOT REGISTERED</h2>
+                <XCircle className="h-8 w-8 text-destructive" />
+                <h2 className="text-2xl font-bold text-destructive">NOT REGISTERED</h2>
               </div>
-              <p className="text-slate-300 mb-4">
+              <p className="text-muted-foreground mb-4">
                 This student ID is not registered in the system. Please proceed to registration.
               </p>
               <Button 
@@ -267,7 +265,7 @@ const Scanner = () => {
               >
                 Scan Another
               </Button>
-            </div>
+            </Card>
           )}
         </div>
       </main>
