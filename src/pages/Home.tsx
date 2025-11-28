@@ -11,56 +11,60 @@ const Home = () => {
       icon: FileEdit,
       title: 'Proceed to Registration',
       description: 'Register your PC with the university',
-      color: 'from-primary to-primary/80',
+      color: 'from-blue-500 to-cyan-500',
     },
     {
       to: '/scan',
       icon: ScanLine,
       title: 'Scan Student ID',
       description: 'Verify registration via QR/Barcode',
-      color: 'from-secondary to-secondary/80',
+      color: 'from-purple-500 to-pink-500',
     },
     {
       to: '/records',
       icon: Database,
       title: 'View Records',
       description: 'Browse all registered students',
-      color: 'from-primary to-primary/80',
+      color: 'from-emerald-500 to-teal-500',
     },
     {
       to: '/admin',
       icon: Shield,
       title: 'Admin Panel',
       description: 'Manage student registrations',
-      color: 'from-secondary to-secondary/80',
+      color: 'from-orange-500 to-red-500',
     },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-hu-gray via-white to-hu-gray">
+    <div className="min-h-screen relative bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(59,130,246,0.1),transparent_50%),radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.1),transparent_50%)]"></div>
       <Navigation />
       
-      <main className="container mx-auto px-4 py-12">
-        <div className="text-center mb-12 animate-fade-in">
-          <div className="flex justify-center mb-6">
-            <img 
-              src={huLogo} 
-              alt="Haramaya University Logo" 
-              className="w-40 h-40 object-contain drop-shadow-2xl animate-scale-in"
-            />
+      <main className="container mx-auto px-4 py-12 relative z-10">
+        <div className="text-center mb-16 animate-fade-in">
+          <div className="flex justify-center mb-8">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-emerald-500 rounded-full blur-2xl opacity-30 animate-pulse"></div>
+              <img 
+                src={huLogo} 
+                alt="Haramaya University Logo" 
+                className="w-32 h-32 object-contain relative z-10 drop-shadow-2xl"
+              />
+            </div>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Haramaya University
           </h1>
-          <h2 className="text-2xl md:text-3xl font-semibold text-secondary mb-2">
+          <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 via-emerald-400 to-blue-400 bg-clip-text text-transparent mb-6">
             PC Registration System
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          <p className="text-slate-300 text-lg max-w-2xl mx-auto leading-relaxed">
             Official platform for registering and managing student computer devices
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto mb-16">
           {features.map((feature, index) => (
             <Link
               key={feature.to}
@@ -68,14 +72,14 @@ const Home = () => {
               className="group"
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              <div className="bg-card rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 border-2 border-transparent hover:border-primary group-hover:scale-105 animate-fade-in">
-                <div className={`w-16 h-16 bg-gradient-to-br ${feature.color} rounded-lg flex items-center justify-center mb-4 group-hover:rotate-6 transition-transform duration-300`}>
+              <div className="glass-card rounded-2xl p-8 border border-white/10 hover:border-blue-400/50 transition-all duration-300 group-hover:scale-105 animate-fade-in backdrop-blur-xl bg-white/5 hover:bg-white/10">
+                <div className={`w-16 h-16 bg-gradient-to-br ${feature.color} rounded-xl flex items-center justify-center mb-6 group-hover:rotate-6 transition-transform duration-300 shadow-lg shadow-blue-500/20`}>
                   <feature.icon className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-bold text-card-foreground mb-2 group-hover:text-primary transition-colors">
+                <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">
                   {feature.title}
                 </h3>
-                <p className="text-muted-foreground">
+                <p className="text-slate-400 leading-relaxed">
                   {feature.description}
                 </p>
               </div>
@@ -83,10 +87,29 @@ const Home = () => {
           ))}
         </div>
 
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
+          <div className="glass-card rounded-xl p-6 text-center backdrop-blur-xl bg-white/5 border border-white/10">
+            <div className="text-3xl font-bold text-white mb-2">500+</div>
+            <div className="text-sm text-slate-400">Active Users</div>
+          </div>
+          <div className="glass-card rounded-xl p-6 text-center backdrop-blur-xl bg-white/5 border border-white/10">
+            <div className="text-3xl font-bold text-white mb-2">100%</div>
+            <div className="text-sm text-slate-400">Trusted</div>
+          </div>
+          <div className="glass-card rounded-xl p-6 text-center backdrop-blur-xl bg-white/5 border border-white/10">
+            <div className="text-3xl font-bold text-white mb-2">24/7</div>
+            <div className="text-sm text-slate-400">Available</div>
+          </div>
+          <div className="glass-card rounded-xl p-6 text-center backdrop-blur-xl bg-white/5 border border-white/10">
+            <div className="text-3xl font-bold text-white mb-2">Fast</div>
+            <div className="text-sm text-slate-400">Processing</div>
+          </div>
+        </div>
+
         <div className="mt-12 text-center">
-          <div className="inline-flex items-center space-x-2 bg-primary/10 px-6 py-3 rounded-full">
-            <div className="w-3 h-3 bg-success rounded-full animate-pulse"></div>
-            <span className="text-sm font-medium text-primary">System Online & Ready</span>
+          <div className="inline-flex items-center space-x-2 glass-card px-6 py-3 rounded-full backdrop-blur-xl bg-emerald-500/10 border border-emerald-500/20">
+            <div className="w-3 h-3 bg-emerald-400 rounded-full animate-pulse shadow-lg shadow-emerald-400/50"></div>
+            <span className="text-sm font-medium text-emerald-400">System Online & Ready</span>
           </div>
         </div>
       </main>

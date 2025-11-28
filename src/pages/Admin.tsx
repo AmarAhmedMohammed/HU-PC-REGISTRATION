@@ -10,6 +10,7 @@ import { validateAdminLogin, changeAdminPassword, changeAdminUsername, getAdminC
 import { toast } from '@/hooks/use-toast';
 import Navigation from '@/components/Navigation';
 import { Trash2, Edit, LogOut, Users, Clock, Settings, KeyRound } from 'lucide-react';
+import huLogo from '@/assets/hu-logo.png';
 
 const Admin = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -149,16 +150,17 @@ const Admin = () => {
     const credentials = getAdminCredentials();
     
     return (
-      <div className="min-h-screen bg-gradient-to-br from-hu-gray via-white to-hu-gray">
+      <div className="min-h-screen relative bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(59,130,246,0.1),transparent_50%),radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.1),transparent_50%)]"></div>
         <Navigation />
         
-        <main className="container mx-auto px-4 py-12">
+        <main className="container mx-auto px-4 py-12 relative z-10">
           <div className="max-w-md mx-auto">
-            <Card className="p-8 animate-fade-in">
-              <h1 className="text-3xl font-bold text-primary mb-6 text-center">Admin Login</h1>
+            <div className="glass-card backdrop-blur-xl bg-white/5 rounded-2xl border border-white/10 p-8 animate-fade-in">
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent mb-6 text-center">Admin Login</h1>
               <form onSubmit={handleLogin} className="space-y-4">
                 <div>
-                  <Label htmlFor="username">Username</Label>
+                  <Label htmlFor="username" className="text-white">Username</Label>
                   <Input
                     id="username"
                     value={username}
@@ -168,7 +170,7 @@ const Admin = () => {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password" className="text-white">Password</Label>
                   <Input
                     id="password"
                     type="password"
@@ -182,10 +184,10 @@ const Admin = () => {
                   Login
                 </Button>
               </form>
-              <p className="text-xs text-muted-foreground text-center mt-4">
+              <p className="text-xs text-slate-400 text-center mt-4">
                 Default: {credentials.username} / {credentials.password}
               </p>
-            </Card>
+            </div>
           </div>
         </main>
       </div>
@@ -195,12 +197,13 @@ const Admin = () => {
   const recentRegistrations = students.slice(0, 5);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-hu-gray via-white to-hu-gray">
+    <div className="min-h-screen relative bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(59,130,246,0.1),transparent_50%),radial-gradient(circle_at_70%_80%,rgba(16,185,129,0.1),transparent_50%)]"></div>
       <Navigation />
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-8 relative z-10">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-primary">Admin Dashboard</h1>
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">Admin Dashboard</h1>
           <div className="flex gap-2">
             <Dialog open={showUsernameDialog} onOpenChange={setShowUsernameDialog}>
               <DialogTrigger asChild>
@@ -224,7 +227,7 @@ const Admin = () => {
                     />
                   </div>
                   <div>
-                    <Label>New Username</Label>
+                    <Label className="text-white">New Username</Label>
                     <Input
                       value={newUsername}
                       onChange={(e) => setNewUsername(e.target.value)}
@@ -260,7 +263,7 @@ const Admin = () => {
                     />
                   </div>
                   <div>
-                    <Label>New Password</Label>
+                    <Label className="text-white">New Password</Label>
                     <Input
                       type="password"
                       value={newPassword}
@@ -269,7 +272,7 @@ const Admin = () => {
                     />
                   </div>
                   <div>
-                    <Label>Confirm New Password</Label>
+                    <Label className="text-white">Confirm New Password</Label>
                     <Input
                       type="password"
                       value={confirmPassword}
@@ -292,7 +295,7 @@ const Admin = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <Card className="p-6 bg-gradient-to-br from-primary to-primary/80 text-white animate-fade-in">
+          <div className="glass-card backdrop-blur-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border-blue-500/30 rounded-2xl p-6 text-white animate-fade-in">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-white/80 text-sm mb-1">Total Registered</p>
@@ -300,43 +303,43 @@ const Admin = () => {
               </div>
               <Users className="h-12 w-12 text-white/50" />
             </div>
-          </Card>
+          </div>
 
-          <Card className="p-6 bg-gradient-to-br from-secondary to-secondary/80 text-primary animate-fade-in" style={{ animationDelay: '100ms' }}>
+          <div className="glass-card backdrop-blur-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 border-emerald-500/30 rounded-2xl p-6 text-white animate-fade-in" style={{ animationDelay: '100ms' }}>
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-primary/80 text-sm mb-1">Recent (Today)</p>
+                <p className="text-white/80 text-sm mb-1">Recent (Today)</p>
                 <p className="text-4xl font-bold">
                   {students.filter(s => 
                     new Date(s.registrationDate).toDateString() === new Date().toDateString()
                   ).length}
                 </p>
               </div>
-              <Clock className="h-12 w-12 text-primary/50" />
+              <Clock className="h-12 w-12 text-white/50" />
             </div>
-          </Card>
+          </div>
         </div>
 
-        <Card className="p-6 animate-fade-in" style={{ animationDelay: '200ms' }}>
-          <h2 className="text-2xl font-bold text-primary mb-4">All Students</h2>
+        <div className="glass-card backdrop-blur-xl bg-white/5 rounded-2xl border border-white/10 p-6 animate-fade-in" style={{ animationDelay: '200ms' }}>
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">All Students</h2>
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Student ID</TableHead>
-                  <TableHead>Department</TableHead>
-                  <TableHead>PC Serial</TableHead>
-                  <TableHead>Actions</TableHead>
+                  <TableHead className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent font-bold">Name</TableHead>
+                  <TableHead className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent font-bold">Student ID</TableHead>
+                  <TableHead className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent font-bold">Department</TableHead>
+                  <TableHead className="bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent font-bold">PC Serial</TableHead>
+                  <TableHead className="bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent font-bold">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {students.map((student) => (
-                  <TableRow key={student.id}>
-                    <TableCell className="font-medium">{student.fullName}</TableCell>
-                    <TableCell>{student.studentId}</TableCell>
-                    <TableCell>{student.department}</TableCell>
-                    <TableCell>{student.pcSerialNumber}</TableCell>
+                  <TableRow key={student.id} className="border-white/10">
+                    <TableCell className="font-medium text-white">{student.fullName}</TableCell>
+                    <TableCell className="text-slate-300">{student.studentId}</TableCell>
+                    <TableCell className="text-slate-300">{student.department}</TableCell>
+                    <TableCell className="text-slate-300">{student.pcSerialNumber}</TableCell>
                     <TableCell>
                       <div className="flex space-x-2">
                         <Dialog>
@@ -355,21 +358,21 @@ const Admin = () => {
                             </DialogHeader>
                             <div className="space-y-4">
                               <div>
-                                <Label>Full Name</Label>
+                                <Label className="text-white">Full Name</Label>
                                 <Input
                                   value={editForm.fullName || ''}
                                   onChange={(e) => setEditForm({ ...editForm, fullName: e.target.value })}
                                 />
                               </div>
                               <div>
-                                <Label>Student ID</Label>
+                                <Label className="text-white">Student ID</Label>
                                 <Input
                                   value={editForm.studentId || ''}
                                   onChange={(e) => setEditForm({ ...editForm, studentId: e.target.value })}
                                 />
                               </div>
                               <div>
-                                <Label>PC Serial Number</Label>
+                                <Label className="text-white">PC Serial Number</Label>
                                 <Input
                                   value={editForm.pcSerialNumber || ''}
                                   onChange={(e) => setEditForm({ ...editForm, pcSerialNumber: e.target.value })}
@@ -396,7 +399,7 @@ const Admin = () => {
               </TableBody>
             </Table>
           </div>
-        </Card>
+        </div>
       </main>
     </div>
   );
