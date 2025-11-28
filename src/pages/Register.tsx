@@ -21,9 +21,9 @@ import huLogo from '@/assets/hu-logo.png';
 /* --------------------------------------------------------------
    REPLACE THESE WITH YOUR EMAILJS CREDENTIALS
    -------------------------------------------------------------- */
-const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+const SERVICE_ID = "service_0nbyj0r";
+const TEMPLATE_ID = "template_fv6aubg";
+const PUBLIC_KEY = "F33pfI-zsdDEz0gy5";
 /* -------------------------------------------------------------- */
 
 const Register = () => {
